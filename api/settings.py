@@ -9,11 +9,17 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+SECRET_KEY=str(os.getenv('SECRET_KEY'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -117,10 +123,36 @@ USE_I18N = True
 USE_TZ = True
 
 
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+MEDIA_URL='/image/'
+MEDIA_ROOT= os.path.join(BASE_DIR,'image')
+
+# email settings 
+EMAIL_BACKEND= 'django.core.mail.backends.smtp.EmailBackened'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_USE_TLS= True
+EMAIL_PORT=587
+EMAIL_HOST_USER=str(os.getenv('EMAIL_HOST_USER'))
+EMAIL_HOST_PASSWORD=str(os.getenv('EMAIL_HOST_PASSWORD'))
+
+
+# paystack
+
+PAYSTACK_SECRET_KEY=str(os.getenv('PAYSTACK_SECRET_KEY'))
+PAYSTACK_PUBLIC_KEY=str(os.getenv('PAYSTACK_SECRET_KEY'))
+
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 from datetime import timedelta
 ...
